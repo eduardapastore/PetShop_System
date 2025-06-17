@@ -42,3 +42,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   Telefone: <input type="text" name="telefone"><br>
   <button type="submit">Cadastrar</button>
 </form>
+<p><a href="../index.php"><button>Voltar</button></a></p>
