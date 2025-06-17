@@ -2,45 +2,80 @@
 session_start();
 include 'processa.php';
 
-
 $conn = OpenCon();
-if ($conn instanceof mysqli) {
-    echo "<p>Conexão bem-sucedida com MySQLi!</p>";
-} else {
-    echo "Erro na conexão.";
+
+if (!$conn) {
+    die("Erro na conexão com o banco de dados.");
 }
-CloseCon($conn);
 
-// login
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+// Consulta cliente
+$clientes = $conn->query("SELECT * FROM cliente");
 
-    $conn = OpenCon();
-    $stmt = $conn->prepare("SELECT * FROM cliente WHERE Email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
+// Consulta animal
+$animais = $conn->query("SELECT * FROM animal");
 
-    if ($resultado->num_rows > 0) {
-        $cliente = $resultado->fetch_assoc();
-        $_SESSION['cliente'] = $cliente['NOME'];
-        header("Location: inicio.php");
-        exit;
-    } else {
-        echo "<p style='color:red;'>Email não encontrado.</p>";
-    }
+// Consulta produto
+$produtos = $conn->query("SELECT * FROM produto");
 
-    $stmt->close();
-    CloseCon($conn);
-}
 ?>
 
-<h2>Login do Cliente</h2>
-<form method="POST">
-  Email: <input type="email" name="email" required><br>
-  <button type="submit">Entrar</button>
-</form>
+<h2>Dashboard</h2>
 
-<p>Ainda não tem cadastro? <a href="adicionar.php">Cadastre-se aqui</a></p>
+<!-- CLIENTES -->
+<h3>Clientes</h3>
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+    </tr>
+    <?php while ($c = $clientes->fetch_assoc()): ?>
+        <tr>
+            <td><?= $c['ID'] ?></td>
+            <td><?= htmlspecialchars($c['NOME']) ?></td>
+            <td><?= htmlspecialchars($c['Email']) ?></td>
+        </tr>
+    <?php endwhile; ?>
+</table>
 
+<!-- ANIMAIS -->
+<h3>Animais</h3>
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Tipo</th>
+        <th>ID do Cliente</th>
+    </tr>
+    <?php while ($a = $animais->fetch_assoc()): ?>
+        <tr>
+            <td><?= $a['ID'] ?></td>
+            <td><?= htmlspecialchars($a['Nome']) ?></td>
+            <td><?= htmlspecialchars($a['Tipo']) ?></td>
+            <td><?= $a['ClienteID'] ?></td>
+        </tr>
+    <?php endwhile; ?>
+</table>
 
+<!-- PRODUTOS -->
+<h3>Produtos</h3>
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Nome do Produto</th>
+        <th>Preço</th>
+        <th>ID do Cliente</th>
+    </tr>
+    <?php while ($p = $produtos->fetch_assoc()): ?>
+        <tr>
+            <td><?= $p['ID'] ?></td>
+            <td><?= htmlspecialchars($p['NomeProduto']) ?></td>
+            <td>R$ <?= number_format($p['Preco'], 2, ',', '.') ?></td>
+            <td><?= $p['ClienteID'] ?></td>
+        </tr>
+    <?php endwhile; ?>
+</table>
+
+<?php
+CloseCon($conn);
+?>
