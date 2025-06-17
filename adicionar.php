@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         echo "<p style='color:green;'>Cliente cadastrado com sucesso!</p>";
-        echo "<a href='index.php'>Voltar ao login</a>";
+        echo "<a href='index.php'>Voltar a tela inicial</a>";
     } else {
         echo "<p style='color:red;'>Erro ao cadastrar: " . $stmt->error . "</p>";
     }
