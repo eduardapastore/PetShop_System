@@ -1,46 +1,42 @@
 <?php
 session_start();
 include 'processa.php';
-
-
 $conn = OpenCon();
-if ($conn instanceof mysqli) {
-    echo "<p>Conexão bem-sucedida com MySQLi!</p>";
-} else {
-    echo "Erro na conexão.";
-}
-CloseCon($conn);
 
-// login
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+$sql = "SELECT * FROM cliente";
+$resultado = $conn->query($sql);
 
-    $conn = OpenCon();
-    $stmt = $conn->prepare("SELECT * FROM cliente WHERE Email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
+echo "<h2>Lista de Clientes</h2>";
 
-    if ($resultado->num_rows > 0) {
-        $cliente = $resultado->fetch_assoc();
-        $_SESSION['cliente'] = $cliente['NOME'];
-        header("Location: inicio.php");
-        exit;
-    } else {
-        echo "<p style='color:red;'>Email não encontrado.</p>";
+if ($resultado->num_rows > 0) {
+    echo "<table border='1' cellpadding='8' cellspacing='0'>";
+    echo "<tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CEP</th>
+            <th>Email</th>
+            <th>Idade</th>
+            <th>Telefone</th>
+          </tr>";
+    
+    while ($linha = $resultado->fetch_assoc()) {
+        echo "<tr>
+                <td>{$linha['ID']}</td>
+                <td>{$linha['NOME']}</td>
+                <td>{$linha['CEP']}</td>
+                <td>{$linha['Email']}</td>
+                <td>{$linha['Idade']}</td>
+                <td>{$linha['Telefone']}</td>
+              </tr>";
     }
-
-    $stmt->close();
-    CloseCon($conn);
+    echo "</table>";
+} else {
+    echo "<p>Nenhum cliente encontrado.</p>";
 }
+
+CloseCon($conn);
 ?>
 
-<h2>Login do Cliente</h2>
-<form method="POST">
-  Email: <input type="email" name="email" required><br>
-  <button type="submit">Entrar</button>
-</form>
-
-<p>Ainda não tem cadastro? <a href="adicionar.php">Cadastre-se aqui</a></p>
-
+<p>Adicione aqui novo cliente <a href="adicionar.php">Cadastre-se aqui</a></p>
+<p><a href='logout.php'>Sair</a></p>
 
