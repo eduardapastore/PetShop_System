@@ -37,6 +37,6 @@ if ($resultado->num_rows > 0) {
 CloseCon($conn);
 ?>
 
-<p>Adicione aqui novo cliente <a href="adicionar.php">Cadastre-se aqui</a></p>
+<p>Adicione aqui novo cliente <a href="adicionar.php"><button>Clique</button></a></p>
 <p><a href='logout.php'>Sair</a></p>
 
