@@ -24,7 +24,7 @@ $produtos = $conn->query("SELECT * FROM produto");
 <!-- CLIENTES -->
 <h3>Clientes</h3>
 <table border="1" cellpadding="8">
-    <button>editar</button><button>excluir</button><button>exibir</button> &nbsp;&nbsp;<button>add animal</button> <button>exibir animais</button>
+    
     <tr>
         <th>ID</th>
         <th>Nome</th>
@@ -35,29 +35,14 @@ $produtos = $conn->query("SELECT * FROM produto");
             <td><?= $c['ID'] ?></td>
             <td><?= htmlspecialchars($c['NOME']) ?></td>
             <td><?= htmlspecialchars($c['Email']) ?></td>
-            <td><button>editar</button><button>excluir</button><button>exibir</button> &nbsp;&nbsp;<button>add animal</button> <button>exibir animais</button></td>
+            <td><a href='cliente/editar.php?id=<?= $c['ID'] ?>'><button>editar</button></a>
+            <a href='cliente/deletar.php?id_cliente=<?= $c['ID'] ?>'><button>excluir</button></a>
+            &nbsp;&nbsp;<a href='animais/adicionaranimais.php?id_cliente=<?= $c['ID'] ?>'><button>add animal</button></a> 
+            <a href='animais/exibiranimais.php?id_cliente=<?= $c['ID'] ?>'><button>exibir animais</button></td></a>
         </tr>
     <?php endwhile; ?>
 </table>
 
-<!-- ANIMAIS -->
-<h3>Animais</h3>
-<table border="1" cellpadding="8">
-    <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Tipo</th>
-        <th>ID do Cliente</th>
-    </tr>
-    <?php while ($a = $animais->fetch_assoc()): ?>
-        <tr>
-            <td><?= $a['ID'] ?></td>
-            <td><?= htmlspecialchars($a['Nome']) ?></td>
-            <td><?= htmlspecialchars($a['Tipo']) ?></td>
-            <td><?= $a['ClienteID'] ?></td>
-        </tr>
-    <?php endwhile; ?>
-</table>
 
 <!-- PRODUTOS -->
 <h3>Produtos</h3>
