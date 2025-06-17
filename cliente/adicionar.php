@@ -1,5 +1,5 @@
 <?php
-include 'processa.php';
+include '../processa.php';
 
 
 $conn = OpenCon();

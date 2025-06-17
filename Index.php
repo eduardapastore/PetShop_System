@@ -81,5 +81,5 @@ $produtos = $conn->query("SELECT * FROM produto");
 <?php
 CloseCon($conn);
 ?>
-<p>Adicione aqui novo cliente <a href="adicionar.php"><button>Clique</button></a></p>
+<p>Adicione aqui novo cliente <a href="cliente/adicionar.php"><button>Clique</button></a></p>
 <p><a href='logout.php'>Sair</a></p>
