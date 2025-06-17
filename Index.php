@@ -24,6 +24,7 @@ $produtos = $conn->query("SELECT * FROM produto");
 <!-- CLIENTES -->
 <h3>Clientes</h3>
 <table border="1" cellpadding="8">
+    <button>editar</button><button>excluir</button><button>exibir</button> &nbsp;&nbsp;<button>add animal</button> <button>exibir animais</button>
     <tr>
         <th>ID</th>
         <th>Nome</th>
@@ -34,6 +35,7 @@ $produtos = $conn->query("SELECT * FROM produto");
             <td><?= $c['ID'] ?></td>
             <td><?= htmlspecialchars($c['NOME']) ?></td>
             <td><?= htmlspecialchars($c['Email']) ?></td>
+            <td><button>editar</button><button>excluir</button><button>exibir</button> &nbsp;&nbsp;<button>add animal</button> <button>exibir animais</button></td>
         </tr>
     <?php endwhile; ?>
 </table>
@@ -79,3 +81,5 @@ $produtos = $conn->query("SELECT * FROM produto");
 <?php
 CloseCon($conn);
 ?>
+<p>Adicione aqui novo cliente <a href="adicionar.php"><button>Clique</button></a></p>
+<p><a href='logout.php'>Sair</a></p>
